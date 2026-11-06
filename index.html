@@ -12,111 +12,235 @@
 
   <meta
     name="description"
-    content="Nexus : crée, collectionne et échange les cartes de ton univers."
+    content="Nexus : crée, collectionne et échange les cartes de ton groupe."
   >
 
-  <meta name="referrer" content="no-referrer">
+  <title>Nexus — Collectionne votre univers.</title>
 
-  <title>Nexus — Votre univers en cartes</title>
+  <link rel="stylesheet" href="./style.css?v=4.1">
 
-  <link rel="stylesheet" href="./style.css">
-  <script src="./app.js" defer></script>
+  <!--
+    Le diagnostic reste indépendant du CSS principal
+    et du code de l'application.
+  -->
+  <style>
+    #nexus-loading {
+      max-width: 520px;
+      margin: 60px auto;
+      padding: 24px;
+      color: #172230;
+      font: 16px/1.6 system-ui, sans-serif;
+    }
+
+    #nexus-diagnostics {
+      position: fixed;
+      z-index: 10000;
+      right: 16px;
+      bottom: 110px;
+      left: 16px;
+
+      box-sizing: border-box;
+      max-width: 680px;
+      max-height: 50vh;
+      margin: 0 auto;
+      padding: 22px;
+      overflow: auto;
+
+      border: 1px solid #e0a5ac;
+      border-radius: 22px;
+
+      color: #571d28;
+      background: #fff4f5;
+      box-shadow: 0 15px 50px #17223026;
+
+      font: 14px/1.6 system-ui, sans-serif;
+    }
+
+    #nexus-diagnostics[hidden] {
+      display: none !important;
+    }
+
+    #nexus-diagnostics h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: normal;
+    }
+
+    #nexus-diagnostics p {
+      margin: 10px 0;
+    }
+
+    #nexus-error-details {
+      padding: 12px;
+      border-radius: 12px;
+      color: #38151c;
+      background: #ffffff;
+
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+
+      font: 12px/1.6 ui-monospace, monospace;
+    }
+
+    .nexus-noscript {
+      margin: 24px;
+      padding: 20px;
+      color: #571d28;
+      background: #fff4f5;
+      font: 16px/1.6 system-ui, sans-serif;
+    }
+  </style>
+
+  <!--
+    Installer le diagnostic AVANT de charger app.js.
+    Aucun effacement de la sauvegarde locale.
+  -->
+  <script>
+    (function () {
+      "use strict";
+
+      var firstError = "";
+
+      function displayError(message) {
+        if (!firstError) {
+          firstError = String(message || "Erreur inconnue.");
+        }
+
+        var panel = document.getElementById("nexus-diagnostics");
+        var details = document.getElementById("nexus-error-details");
+        var loading = document.getElementById("nexus-loading");
+
+        if (!panel || !details) return;
+
+        details.textContent = firstError;
+        panel.hidden = false;
+
+        if (loading) {
+          loading.textContent =
+            "Le démarrage de Nexus a été interrompu.";
+        }
+      }
+
+      window.addEventListener("error", function (event) {
+        var target = event.target;
+
+        // Le navigateur n'a pas pu charger le fichier.
+        if (target && target.id === "nexus-app-script") {
+          displayError(
+            "Impossible de charger app.js.\n\n" +
+            "Vérifie que le fichier s'appelle exactement app.js " +
+            "et se trouve dans le même dossier que index.html."
+          );
+
+          return;
+        }
+
+        // Erreur de syntaxe ou erreur pendant l'exécution.
+        if (typeof event.message === "string" && event.message) {
+          var position = "";
+
+          if (event.filename) {
+            position += "\nFichier : " + event.filename;
+          }
+
+          if (event.lineno) {
+            position += "\nLigne : " + event.lineno;
+          }
+
+          if (event.colno) {
+            position += " · colonne : " + event.colno;
+          }
+
+          displayError(event.message + position);
+        }
+      }, true);
+
+      window.addEventListener("unhandledrejection", function (event) {
+        var reason = event.reason;
+
+        var message = reason && reason.message
+          ? reason.message
+          : String(reason || "Erreur asynchrone inconnue.");
+
+        displayError("Erreur asynchrone : " + message);
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (firstError) {
+          displayError(firstError);
+          return;
+        }
+
+        var content = document.getElementById("content");
+        var navigation = document.getElementById("navigation");
+
+        var contentReady =
+          content && content.querySelector(".page");
+
+        var navigationReady =
+          navigation && navigation.querySelector("[data-view]");
+
+        if (!contentReady || !navigationReady) {
+          displayError(
+            "Le démarrage attendu n'a pas été détecté.\n\n" +
+            "Vérifie que app.js contient la dernière version complète, " +
+            "sans balises <script>, sans balises HTML " +
+            "et sans les marqueurs de bloc de code ```.\n\n" +
+            "Ne charge pas les anciens scripts V1, V2 ou V3 " +
+            "en parallèle."
+          );
+        }
+      });
+    })();
+  </script>
+
+  <!-- Une seule application, chargée une seule fois. -->
+  <script
+    id="nexus-app-script"
+    src="./app.js?v=4.1"
+    defer
+  ></script>
 </head>
 
 <body>
-  <a class="skip-link" href="#app">Aller au contenu</a>
-
-  <div class="shell">
-    <header class="topbar">
-      <button
-        class="brand"
-        type="button"
-        data-view="boosters"
-        aria-label="Nexus, accueil"
-      >
-        <span class="brand-mark glass" id="brandIcon"></span>
-
-        <span class="brand-copy">
-          <span class="brand-name">NEXUS</span>
-          <span class="brand-sub">ClassChat · collection sociale</span>
-        </span>
-      </button>
-
-      <div class="top-actions">
-        <span class="local-badge">Version locale</span>
-
-        <div class="wallet glass" aria-label="Solde en jetons virtuels">
-          <span id="coinIcon" aria-hidden="true"></span>
-          <span id="balance">0</span>
-        </div>
-
-        <button
-          class="icon-btn glass contrast-button"
-          id="contrastButton"
-          type="button"
-          data-action="contrast"
-          aria-label="Réduire la transparence"
-          aria-pressed="false"
-        ></button>
-
-        <button
-          class="avatar"
-          id="profileButton"
-          type="button"
-          data-view="profile"
-          aria-label="Ouvrir mon profil"
-        >MOI</button>
-      </div>
-    </header>
-
-    <p class="storage-warning" id="storageWarning" role="status" hidden></p>
-
-    <main id="app" tabindex="-1"></main>
-
-    <footer class="site-footer">
-      <p>
-        Nexus · expérience locale · aucun achat en argent réel.
-        Les amis et les échanges sont simulés.
-      </p>
-
-      <p>
-        Sources externes facultatives :
-        <a
-          href="https://justmeme.wtf"
-          target="_blank"
-          rel="noopener noreferrer"
-        >justmeme</a>
-        ·
-        <a
-          href="https://imgflip.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Imgflip</a>
-      </p>
-    </footer>
+  <!-- Le dernier app.js construit l'interface dans cet élément. -->
+  <div id="app">
+    <p id="nexus-loading" role="status">
+      Chargement de Nexus…
+    </p>
   </div>
 
-  <div class="dock-wrap">
-    <nav
-      class="dock glass"
-      id="navigation"
-      aria-label="Navigation principale"
-    ></nav>
-  </div>
+  <!--
+    Placé en dehors de #app :
+    il reste disponible si l'application remplace son contenu.
+  -->
+  <section
+    id="nexus-diagnostics"
+    role="alert"
+    aria-labelledby="nexus-error-title"
+    hidden
+  >
+    <h2 id="nexus-error-title">
+      Nexus n’a pas pu démarrer correctement.
+    </h2>
 
-  <dialog id="modal" aria-labelledby="modalTitle"></dialog>
+    <p>
+      Voici l’erreur détectée :
+    </p>
 
-  <div
-    class="toast"
-    id="toast"
-    role="status"
-    aria-live="polite"
-  ></div>
+    <pre id="nexus-error-details"></pre>
+
+    <p>
+      Copie ce message ou prends une capture pour identifier
+      la correction nécessaire.
+    </p>
+  </section>
 
   <noscript>
-    <div class="noscript-message">
-      Active JavaScript pour utiliser Nexus.
-    </div>
+    <p class="nexus-noscript">
+      JavaScript doit être activé pour utiliser Nexus.
+    </p>
   </noscript>
 </body>
-</html>
+  </html>
+  
