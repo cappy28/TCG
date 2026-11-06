@@ -2037,28 +2037,34 @@
         : `<div class="empty spacer">Pas encore de premier cadeau.</div>`;
     }
 
-    showDialog(`Le Nexus de ${state.profile.name}`, `
-            <div class="filters">
-        ${[
-          ["profil", "Mon profil"],
-          ["souhaits", `Souhaits · ${state.profile.wishlist.length}`],
+        showDialog(`Le Nexus de ${state.profile.name}`, `
+      <div class="filters">
+        <button
+          class="chip ${ui.profileTab === "profil" ? "active" : ""}"
+          data-action="profile"
+          data-tab="profil"
+          aria-pressed="${ui.profileTab === "profil"}"
+        >
+          Mon profil
+        </button>
 
+        <button
+          class="chip ${ui.profileTab === "souhaits" ? "active" : ""}"
+          data-action="profile"
+          data-tab="souhaits"
+          aria-pressed="${ui.profileTab === "souhaits"}"
+        >
+          Souhaits · ${state.profile.wishlist.length}
+        </button>
 
-$$
-"cadeaux", `Cadeaux · ${state.gifts.length}`
-$$
-
-
-        ].map(([id, label]) => `
-          <button
-            class="chip ${ui.profileTab === id ? "active" : ""}"
-            data-action="profile"
-            data-tab="${id}"
-            aria-pressed="${ui.profileTab === id}"
-          >
-            ${label}
-          </button>
-        `).join("")}
+        <button
+          class="chip ${ui.profileTab === "cadeaux" ? "active" : ""}"
+          data-action="profile"
+          data-tab="cadeaux"
+          aria-pressed="${ui.profileTab === "cadeaux"}"
+        >
+          Cadeaux · ${state.gifts.length}
+        </button>
       </div>
 
       ${body}
