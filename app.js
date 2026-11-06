@@ -2038,7 +2038,7 @@
     }
 
     showDialog(`Le Nexus de ${state.profile.name}`, `
-      <div class="filters">
+            <div class="filters">
         ${[
           ["profil", "Mon profil"],
           ["souhaits", `Souhaits · ${state.profile.wishlist.length}`],
@@ -2050,9 +2050,12 @@ $$
 
 
         ].map(([id, label]) => `
-          <button class="chip ${ui.profileTab === id ? "active" : ""}"
-            data-action="profile" data-tab="${id}"
-            aria-pressed="${ui.profileTab === id}">
+          <button
+            class="chip ${ui.profileTab === id ? "active" : ""}"
+            data-action="profile"
+            data-tab="${id}"
+            aria-pressed="${ui.profileTab === id}"
+          >
             ${label}
           </button>
         `).join("")}
