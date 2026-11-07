@@ -1,0 +1,887 @@
+/* ==========================================================
+   NEXUS — ADAPTATIONS ET ACCESSIBILITÉ
+   Ce fichier doit être chargé en dernier.
+   ========================================================== */
+
+/* Animations */
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pack-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+  }
+
+  50% {
+    transform: translateY(-13px) rotate(-5deg);
+  }
+}
+
+@keyframes loading-slide {
+  from {
+    left: -40%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes skeleton-slide {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Survol : appareils équipés d’un pointeur précis. */
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  .btn.primary:hover:not(:disabled) {
+    background: #064bb3;
+  }
+
+  .btn.secondary:hover:not(:disabled),
+  .icon-btn:hover:not(:disabled),
+  .chip:hover:not(:disabled) {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-button:hover .tcg {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 32px rgba(26, 53, 87, .19);
+  }
+
+  .nav-item:hover:not(:disabled) {
+    color: var(--blue);
+    background: var(--paper);
+  }
+
+  .album-card:hover {
+    border-color: var(--blue);
+  }
+
+  .text-btn:hover:not(:disabled) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+/* Très grands écrans */
+
+@media (min-width: 1500px) {
+  :root {
+    --content-width: 1320px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* Petits ordinateurs et grandes tablettes */
+
+@media (max-width: 1050px) {
+  .local-badge {
+    display: none;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(250px, 1fr);
+    gap: 18px;
+  }
+
+  .hero {
+    gap: 12px;
+  }
+
+  .float-one {
+    left: -3px;
+  }
+
+  .float-two {
+    right: -3px;
+  }
+}
+
+/* Tablettes et téléphones */
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 18px;
+  }
+
+  .topbar {
+    min-height: 75px;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 23px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-mark {
+    flex-basis: 41px;
+    width: 41px;
+    height: 41px;
+    border-radius: 14px;
+  }
+
+  .brand-name {
+    font-size: 15px;
+  }
+
+  .brand-sub {
+    font-size: 10px;
+  }
+
+  .top-actions {
+    gap: 7px;
+  }
+
+  .wallet {
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: 0;
+    padding-top: 12px;
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(43px, 10vw, 66px);
+  }
+
+  .hero .lead {
+    margin-inline: auto;
+    font-size: 15px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .pack-stage {
+    min-height: 350px;
+    margin-top: 12px;
+  }
+
+  .pack {
+    width: 194px;
+    height: 283px;
+  }
+
+  .pack-orb {
+    top: 73px;
+    left: 31px;
+    width: 132px;
+    height: 132px;
+  }
+
+  .orbit {
+    width: 285px;
+  }
+
+  .float-one {
+    top: 35px;
+    left: 8%;
+  }
+
+  .float-two {
+    right: 6%;
+    bottom: 28px;
+  }
+
+  .two-col,
+  .dashboard-grid,
+  .studio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .shop-grid,
+  .wish-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .refs-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+  }
+
+  .panel {
+    padding: 22px;
+  }
+
+  .preview-panel {
+    position: static;
+    order: -1;
+  }
+
+  .preview-card {
+    width: 195px;
+    margin-block: 20px;
+  }
+
+  .preview-card .card-name {
+    font-size: 15px;
+  }
+
+  .dock {
+    width: min(100%, 540px);
+    gap: 2px;
+    padding: 6px;
+    border-radius: 26px;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    gap: 5px;
+    min-height: 57px;
+    padding: 8px 5px;
+    border-radius: 20px;
+    font-size: 10px;
+  }
+
+  .nav-item svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .detail-layout > .tcg {
+    width: min(100%, 235px);
+    margin-inline: auto;
+  }
+
+  .reveal-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  dialog {
+    padding: 23px;
+    border-radius: 26px;
+  }
+
+  .booster-options {
+    grid-template-columns: 1fr;
+  }
+
+  .booster-option {
+    padding: 18px;
+  }
+
+  .mission-card {
+    gap: 12px;
+    padding: 15px;
+  }
+}
+
+/* Petits téléphones */
+
+@media (max-width: 480px) {
+  :root {
+    --gutter: 14px;
+  }
+
+  .topbar {
+    gap: 8px;
+    padding: 10px;
+    border-radius: 21px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 13px;
+    letter-spacing: .1em;
+  }
+
+  .brand-mark {
+    flex-basis: 35px;
+    width: 35px;
+    height: 35px;
+    border-radius: 12px;
+  }
+
+  .brand-mark svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .top-actions {
+    gap: 5px;
+  }
+
+  .wallet {
+    gap: 5px;
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+
+  .wallet svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .icon-btn,
+  .avatar {
+    width: 44px;
+    height: 44px;
+  }
+
+  #content {
+    padding-top: 12px;
+  }
+
+  .page-title {
+    font-size: 35px;
+  }
+
+  .lead {
+    font-size: 14px;
+  }
+
+  .hero h1 {
+    font-size: 45px;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 160px;
+  }
+
+  .hero-actions .text-btn {
+    flex-basis: 100%;
+  }
+
+  .pack-stage {
+    min-height: 330px;
+  }
+
+  .float-label {
+    max-width: 135px;
+    padding: 9px 11px;
+    font-size: 10px;
+  }
+
+  .float-one {
+    left: 0;
+  }
+
+  .float-two {
+    right: 0;
+  }
+
+  .card-grid,
+  .refs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .card-name {
+    font-size: 12px;
+  }
+
+  .card-author {
+    font-size: 9px;
+  }
+
+  .album-grid,
+  .backup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .album-cover {
+    min-height: 165px;
+  }
+
+  .toolbar {
+    align-items: stretch;
+  }
+
+  .search,
+  .search-wrap,
+  .sort-select {
+    width: 100%;
+    max-width: none;
+  }
+
+  .search-wrap {
+    flex-basis: 100%;
+  }
+
+  .filters {
+    gap: 6px;
+  }
+
+  .chip {
+    padding-inline: 12px;
+    font-size: 11px;
+  }
+
+  .stats {
+    gap: 10px;
+  }
+
+  .stat {
+    flex-basis: calc(50% - 10px);
+    padding: 16px;
+  }
+
+  .stat strong {
+    font-size: 26px;
+  }
+
+  .panel {
+    padding: 19px;
+    border-radius: 23px;
+  }
+
+  .shop-item {
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .shop-item > .btn {
+    padding-inline: 6px;
+    font-size: 11px;
+  }
+
+  .profile-head {
+    gap: 14px;
+    padding: 19px;
+  }
+
+  .profile-avatar {
+    flex-basis: 58px;
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    font-size: 20px;
+  }
+
+  .showcase {
+    gap: 10px;
+  }
+
+  .showcase .tcg {
+    padding: 5px;
+    border-radius: 14px;
+  }
+
+  .showcase .art {
+    border-radius: 9px;
+  }
+
+  .showcase .card-top,
+  .showcase .rarity {
+    font-size: 6px;
+  }
+
+  .showcase .card-bottom {
+    gap: 4px;
+    padding: 7px 2px 4px;
+  }
+
+  .showcase .card-name {
+    font-size: 9px;
+  }
+
+  .showcase .card-author {
+    font-size: 7px;
+  }
+
+  .showcase .rarity-symbol {
+    font-size: 7px;
+    letter-spacing: 0;
+  }
+
+  .showcase .empty-slot {
+    padding: 7px;
+    border-radius: 14px;
+    font-size: 10px;
+  }
+
+  .badge-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .mission-card {
+    flex-wrap: wrap;
+  }
+
+  .mission-card > .btn {
+    flex-basis: 100%;
+  }
+
+  .mission-body {
+    min-width: 150px;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .theme-grid {
+    gap: 6px;
+  }
+
+  .theme-option {
+    padding: 6px 3px;
+    font-size: 9px;
+  }
+
+  .trade-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .trade-arrow {
+    margin-inline: auto;
+    transform: rotate(90deg);
+  }
+
+  .trade-slot {
+    min-height: 180px;
+  }
+
+  .offer-card {
+    flex-wrap: wrap;
+  }
+
+  .offer-card > .btn {
+    flex-basis: 100%;
+  }
+
+  .refs-search {
+    flex-wrap: wrap;
+  }
+
+  .refs-search input,
+  .refs-search .btn {
+    flex-basis: 100%;
+  }
+
+  .ref-thumb {
+    height: 130px;
+  }
+
+  .ref-copy {
+    padding: 12px;
+  }
+
+  .ref-copy h3 {
+    font-size: 12px;
+  }
+
+  .setting-row {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .setting-row select {
+    max-width: 135px;
+    padding-inline: 9px;
+    font-size: 14px;
+  }
+
+  .activity-row {
+    flex-wrap: wrap;
+  }
+
+  .activity-amount {
+    margin-left: 52px;
+    white-space: normal;
+  }
+
+  .dock-wrap {
+    padding-inline: 9px;
+  }
+
+  .nav-item {
+    font-size: 9px;
+  }
+
+  .loading-screen {
+    min-height: 340px;
+    padding-inline: 0;
+  }
+
+  .loading-card {
+    padding: 26px 21px;
+  }
+
+  #nexus-diagnostics {
+    padding: 19px;
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: 10px;
+  }
+}
+
+/* Réduction de la transparence via le réglage Nexus */
+
+body.solid .glass,
+body.solid .topbar,
+body.solid .panel,
+body.solid .notice,
+body.solid .stat,
+body.solid .shop-item,
+body.solid .mission-card,
+body.solid .album-card,
+body.solid .profile-head,
+body.solid .loading-card {
+  background: var(--solid-surface);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+body.solid dialog::backdrop {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* Repli sans flou d’arrière-plan */
+
+@supports not (
+  (backdrop-filter: blur(1px)) or
+  (-webkit-backdrop-filter: blur(1px))
+) {
+  .glass,
+  .topbar {
+    background: var(--solid-surface);
+  }
+}
+
+/* Préférence système : moins de transparence */
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .topbar,
+  .panel,
+  .notice,
+  .stat,
+  .shop-item,
+  .profile-head,
+  .loading-card {
+    background: var(--solid-surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  dialog::backdrop {
+    background: rgba(15, 31, 54, .76);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Contraste renforcé */
+
+@media (prefers-contrast: more) {
+  :root {
+    --line: #718298;
+    --line-strong: #53667f;
+    --muted: #344a64;
+    --glass: #fff;
+    --paper: #fff;
+  }
+
+  :root[data-theme="dark"],
+  body[data-theme="dark"],
+  body.theme-dark {
+    --line: #91a6c2;
+    --line-strong: #b8cbe4;
+    --muted: #d7e2f1;
+    --glass: #18273a;
+    --paper: #18273a;
+  }
+
+  .glass,
+  .topbar,
+  .panel,
+  .album-card,
+  .profile-head,
+  .loading-card {
+    border-color: var(--line-strong);
+    background: var(--paper);
+  }
+
+  .card-button.is-missing .tcg {
+    opacity: .75;
+  }
+}
+
+/* Réduction des mouvements via le réglage Nexus */
+
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+  scroll-behavior: auto !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+body.reduce-motion .pack,
+body.reduce-motion .preview-card,
+body.reduce-motion .card-button:hover .tcg {
+  transform: none;
+}
+
+body.reduce-motion .loader-line::after {
+  left: 25%;
+  width: 50%;
+}
+
+/* Préférence système : moins de mouvements */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .pack,
+  .preview-card,
+  .card-button:hover .tcg {
+    transform: none;
+  }
+
+  .loader-line::after {
+    left: 25%;
+    width: 50%;
+  }
+}
+
+/* Couleurs forcées */
+
+@media (forced-colors: active) {
+  .glass,
+  .topbar,
+  .panel,
+  .dock,
+  .tcg,
+  .chip,
+  .btn,
+  .album-card,
+  .mission-card,
+  .flip-back {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+
+  .ambient {
+    display: none;
+  }
+
+  .flip-back {
+    color: CanvasText;
+    background: Canvas;
+  }
+}
+
+/* Impression */
+
+@media print {
+  .ambient,
+  .topbar,
+  .dock-wrap,
+  .site-footer,
+  .toast,
+  .toolbar,
+  .skip-link,
+  #nexus-diagnostics,
+  .detail-actions,
+  .text-btn,
+  .btn {
+    display: none !important;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+
+  #app,
+  #content,
+  .shell {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .tcg {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
