@@ -1,0 +1,267 @@
+/* ==========================================================
+   NEXUS — ACCUEIL ET BOOSTERS
+   ========================================================== */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  align-items: center;
+  gap: 28px;
+  min-height: 480px;
+  padding-block: 16px 28px;
+}
+
+.hero h1 {
+  margin: 21px 0;
+  font-size: clamp(44px, 6.2vw, 78px);
+  font-weight: 850;
+  line-height: 1.015;
+}
+
+.hero h1 em {
+  color: var(--blue);
+  font-style: normal;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 25px;
+}
+
+.hero .lead {
+  max-width: 520px;
+}
+
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-lg);
+
+  background:
+    radial-gradient(
+      ellipse at 100% 0,
+      var(--blue-soft),
+      transparent 65%
+    ),
+    var(--paper);
+
+  box-shadow: var(--shadow);
+}
+
+/* Zone du booster */
+
+.pack-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 430px;
+  perspective: 1000px;
+}
+
+.orbit {
+  position: absolute;
+  width: min(340px, 95%);
+  aspect-ratio: 1;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle, var(--paper), transparent 70%);
+
+  box-shadow: 0 0 70px rgba(97, 162, 237, .17);
+  pointer-events: none;
+}
+
+.orbit::after {
+  position: absolute;
+  inset: 24px;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+  content: "";
+}
+
+.pack {
+  position: relative;
+  display: block;
+  width: 218px;
+  height: 316px;
+  overflow: hidden;
+  padding: 25px 21px;
+  border: 1px solid rgba(255, 255, 255, .92);
+  border-radius: 19px;
+  color: #163653;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, .88),
+      transparent 42%,
+      rgba(255, 255, 255, .7)
+    ),
+    linear-gradient(
+      150deg,
+      #d6f2ff,
+      #b6c8f1 43%,
+      #d1eae7 72%,
+      #f3e3f6
+    );
+
+  box-shadow:
+    inset 0 0 0 5px rgba(255, 255, 255, .25),
+    0 22px 48px rgba(37, 72, 119, .22);
+
+  text-align: left;
+  transform: rotate(-8deg);
+  animation: pack-float 6s ease-in-out infinite;
+}
+
+.pack::before,
+.pack::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 12px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .65) 0 2px,
+      transparent 2px 5px
+    );
+
+  content: "";
+}
+
+.pack::before {
+  top: 0;
+}
+
+.pack::after {
+  bottom: 0;
+}
+
+.pack:disabled {
+  opacity: .78;
+  animation-play-state: paused;
+}
+
+.pack-brand {
+  position: relative;
+  z-index: 2;
+  display: block;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: .18em;
+}
+
+.pack-orb {
+  position: absolute;
+  top: 83px;
+  left: 34px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #fff,
+      #dff5ff 24%,
+      #9ec3e9 49%,
+      #c9b7ed 75%,
+      #8abecb
+    );
+
+  box-shadow:
+    inset -10px -15px 26px rgba(43, 78, 135, .17),
+    0 16px 30px rgba(74, 118, 179, .15);
+}
+
+.pack-orb::after {
+  position: absolute;
+  inset: 42px -17px;
+  border: 2px solid rgba(255, 255, 255, .76);
+  border-radius: 50%;
+  content: "";
+  transform: rotate(-28deg);
+}
+
+.pack-label {
+  position: absolute;
+  right: 21px;
+  bottom: 29px;
+  left: 21px;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.75;
+  letter-spacing: .12em;
+}
+
+.float-label {
+  position: absolute;
+  z-index: 3;
+  max-width: 175px;
+  padding: 11px 15px;
+  border-radius: 17px;
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 750;
+  pointer-events: none;
+}
+
+.float-one {
+  top: 45px;
+  left: 0;
+  transform: rotate(-5deg);
+}
+
+.float-two {
+  right: 0;
+  bottom: 45px;
+  transform: rotate(5deg);
+}
+
+/* Variantes de boosters */
+
+.booster-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.booster-option {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  color: var(--ink);
+  background: var(--paper);
+  text-align: left;
+}
+
+.booster-option strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.booster-option p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.booster-option[aria-pressed="true"] {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+
+.countdown {
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
