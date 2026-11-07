@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#edf3fa">
+
+  <meta
+    name="description"
+    content="Nexus : découvre des cartes, ouvre tes boosters et construis ta collection."
+  >
+
+  <meta name="referrer" content="no-referrer">
+
+  <title>Nexus — Votre univers, en cartes.</title>
+
+  <link
+    rel="stylesheet"
+    href="./style.css?v=5.1.0"
+  >
+
+  <script>
+    (function () {
+      "use strict";
+
+      var ready = false;
+      var timeout;
+
+      window.reportNexusError = function (error) {
+        var panel = document.getElementById("nexus-diagnostics");
+        var details = document.getElementById("nexus-error-details");
+        var loading = document.getElementById("nexus-loading");
+
+        var message = error && error.stack
+          ? error.stack
+          : error && error.message
+            ? error.message
+            : String(error || "Erreur inconnue.");
+
+        console.error(error);
+
+        if (panel && details) {
+          details.textContent = message;
+          panel.hidden = false;
+        }
+
+        if (loading) {
+          loading.textContent =
+            "Le démarrage a été interrompu. " +
+            "Le détail du problème apparaît ci-dessous.";
+        }
+
+        window.clearTimeout(timeout);
+      };
+
+      window.addEventListener("error", function (event) {
+        if (event.message) {
+          var message = event.message;
+
+          if (event.filename) {
+            message += "\nFichier : " + event.filename;
+          }
+
+          if (event.lineno) {
+            message += "\nLigne : " + event.lineno;
+          }
+
+          if (event.colno) {
+            message += " · colonne : " + event.colno;
+          }
+
+          window.reportNexusError(new Error(message));
+          return;
+        }
+
+        if (
+          event.target &&
+          event.target.id === "nexus-app-script"
+        ) {
+          window.reportNexusError(new Error(
+            "Impossible de charger app.js. " +
+            "Vérifie le nom du fichier et le déploiement."
+          ));
+        }
+      }, true);
+
+      window.addEventListener(
+        "unhandledrejection",
+        function (event) {
+          window.reportNexusError(
+            event.reason || new Error("Erreur asynchrone inconnue.")
+          );
+        }
+      );
+
+      window.addEventListener("nexus:ready", function () {
+        ready = true;
+        window.clearTimeout(timeout);
+      });
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+          timeout = window.setTimeout(function () {
+            if (ready) return;
+
+            window.reportNexusError(new Error(
+              "Le démarrage n’a pas été confirmé.\n\n" +
+              "Vérifie que les 11 fichiers sont présents " +
+              "avec les bons noms et dans les bons dossiers.\n\n" +
+              "Ne conserve pas l’ancien script en parallèle."
+            ));
+          }, 20000);
+        }
+      );
+    })();
+  </script>
+
+  <script
+    id="nexus-app-script"
+    type="module"
+    src="./app.js?v=5.1.0"
+  ></script>
+</head>
+
+<body data-page="accueil">
+  <a class="skip-link" href="#content">
+    Aller au contenu
+  </a>
+
+  <div class="ambient" aria-hidden="true"></div>
+
+  <div id="app">
+    <div class="shell">
+      <main id="content">
+        <section
+          class="loading-screen"
+          aria-labelledby="loading-title"
+        >
+          <div class="loading-card">
+            <span class="eyebrow">CLASSCHAT NEXUS</span>
+
+            <h1 id="loading-title" class="spacer">
+              Ton univers prend forme.
+            </h1>
+
+            <p id="nexus-loading" role="status">
+              Préparation de ta collection…
+            </p>
+
+            <div class="loader-line" aria-hidden="true"></div>
+
+            <p class="microcopy">
+              Chargement de l’accueil et de ta progression locale.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="modal" aria-labelledby="modalTitle"></dialog>
+
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
+  <section
+    id="nexus-diagnostics"
+    role="alert"
+    aria-labelledby="nexus-error-title"
+    hidden
+  >
+    <h2 id="nexus-error-title">
+      Nexus a rencontré un problème.
+    </h2>
+
+    <p>
+      Copie le détail ci-dessous pour identifier la correction.
+    </p>
+
+    <pre id="nexus-error-details"></pre>
+
+    <p>
+      Le diagnostic ne supprime pas ta sauvegarde.
+    </p>
+
+    <a class="btn secondary small" href="./">
+      Recharger la page
+    </a>
+  </section>
+
+  <noscript>
+    <div class="noscript-message">
+      <strong>JavaScript est nécessaire.</strong>
+      Active JavaScript pour utiliser Nexus.
+    </div>
+  </noscript>
+</body>
+</html>
